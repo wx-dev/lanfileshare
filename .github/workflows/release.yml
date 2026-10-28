@@ -20,7 +20,9 @@ jobs:
       matrix:
         include:
           - platform: ubuntu-22.04
+            args: '--bundles deb,rpm,appimage'
           - platform: windows-latest
+            args: '--bundles msi,nsis'
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -74,6 +76,7 @@ jobs:
             局域网文件分享工具 v__VERSION__
 
             - Windows：`.msi`（MSI 安装包）/ `.exe`（NSIS 安装包）
-            - Linux：`.AppImage`（免安装）/ `.deb`（Debian / Ubuntu）
+            - Linux：`.AppImage`（免安装）/ `.deb`（Debian / Ubuntu）/ `.rpm`（Fedora / RHEL / openSUSE）
           releaseDraft: true
           prerelease: false
+          args: ${{ matrix.args }}
