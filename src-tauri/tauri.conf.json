@@ -34,6 +34,11 @@
     "category": "Utility",
     "shortDescription": "局域网文件分享服务端",
     "longDescription": "桌面窗口是服务端管理端，用于配置存储文件夹、查看访问日志和局域网地址；同时通过 HTTP 服务让手机、平板、其他电脑在浏览器中浏览、上传、下载和分享文件。",
+    "linux": {
+      "rpm": {
+        "depends": ["gtk3", "webkit2gtk4.1", "xdg-utils"]
+      }
+    },
     "windows": {
       "wix": {
         "language": "zh-CN"

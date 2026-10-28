@@ -80,3 +80,24 @@ jobs:
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
+
+      - name: Verify rpm dependencies on Fedora
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          set -e
+          ls -l src-tauri/target/release/bundle/rpm/*.rpm
+          docker run --rm \
+            -v "$PWD/src-tauri/target/release/bundle/rpm:/rpms:ro" \
+            fedora:latest bash -c '
+              set -e
+              dnf install -y --setopt=install_weak_deps=False /rpms/*.rpm
+              BIN=$(command -v LanFileShare || ls /usr/bin/LanFileShare* | head -n1)
+              echo "可执行文件：$BIN"
+              MISSING=$(ldd "$BIN" | grep "not found" || true)
+              if [ -n "$MISSING" ]; then
+                echo "::error::rpm 存在未解析的动态库，请补充 bundle.linux.rpm.depends"
+                echo "$MISSING"
+                exit 1
+              fi
+              echo "依赖校验通过：所有动态库均已解析"
+            '
