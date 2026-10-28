@@ -1,0 +1,54 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "LanFileShare",
+  "version": "1.0.0",
+  "identifier": "com.lanfileshare.desktop",
+  "build": {
+    "beforeDevCommand": "npm run dev:web",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist-admin"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "局域网文件分享 · 管理端",
+        "url": "admin.html",
+        "width": 1280,
+        "height": 840,
+        "minWidth": 960,
+        "minHeight": 640,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "publisher": "LanFileShare",
+    "copyright": "Copyright © 2026 LanFileShare",
+    "category": "Utility",
+    "shortDescription": "局域网文件分享服务端",
+    "longDescription": "桌面窗口是服务端管理端，用于配置存储文件夹、查看访问日志和局域网地址；同时通过 HTTP 服务让手机、平板、其他电脑在浏览器中浏览、上传、下载和分享文件。",
+    "windows": {
+      "wix": {
+        "language": "zh-CN"
+      },
+      "nsis": {
+        "languages": ["SimpChinese"],
+        "displayLanguageSelector": false
+      }
+    },
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

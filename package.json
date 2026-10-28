@@ -1,0 +1,30 @@
+{
+  "name": "lan-file-share",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tauri dev",
+    "dev:web": "vite",
+    "build": "vite build && vite build --config vite.admin.config.js",
+    "build:lan": "vite build",
+    "build:admin": "vite build --config vite.admin.config.js",
+    "build:desktop": "tauri build",
+    "check": "cargo check --manifest-path src-tauri/Cargo.toml",
+    "tauri": "tauri",
+    "start": "tauri dev"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.12.4",
+    "@tauri-apps/plugin-dialog": "^2.8.3",
+    "@tauri-apps/plugin-opener": "^2.7.2",
+    "react-icons": "^5.7.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.12.4",
+    "@vitejs/plugin-react": "^4.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^5.0.8"
+  }
+}

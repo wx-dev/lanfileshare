@@ -1,0 +1,31 @@
+node_modules/
+dist/
+dist-admin/
+uploads/
+src-tauri/target/
+src-tauri/gen/
+access-log.json
+storage-config.json
+cargo-check*.log
+*.local
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.*
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Tauri build artifacts
+src-tauri/Cargo.lock.bak
