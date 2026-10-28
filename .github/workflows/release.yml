@@ -84,15 +84,22 @@ jobs:
       - name: Verify rpm dependencies on Fedora
         if: matrix.platform == 'ubuntu-22.04'
         run: |
-          set -e
+          set -eu
           ls -l src-tauri/target/release/bundle/rpm/*.rpm
           docker run --rm \
             -v "$PWD/src-tauri/target/release/bundle/rpm:/rpms:ro" \
-            fedora:latest bash -c '
-              set -e
+            fedora:latest bash -eu -c '
               dnf install -y --setopt=install_weak_deps=False /rpms/*.rpm
-              BIN=$(command -v LanFileShare || ls /usr/bin/LanFileShare* | head -n1)
-              echo "可执行文件：$BIN"
+              echo "===== RPM 声明的依赖 ====="
+              rpm -qpR /rpms/*.rpm
+              PKG=$(rpm -qp --qf "%{NAME}" /rpms/*.rpm)
+              BIN=$(rpm -ql "$PKG" | grep "^/usr/bin/" | head -n1 || true)
+              if [ -z "$BIN" ] || [ ! -x "$BIN" ]; then
+                echo "::error::安装后未在 /usr/bin 下找到可执行文件"
+                rpm -ql "$PKG"
+                exit 1
+              fi
+              echo "===== 可执行文件：$BIN ====="
               MISSING=$(ldd "$BIN" | grep "not found" || true)
               if [ -n "$MISSING" ]; then
                 echo "::error::rpm 存在未解析的动态库，请补充 bundle.linux.rpm.depends"
