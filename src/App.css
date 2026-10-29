@@ -568,21 +568,57 @@ body::before {
   padding: 4px;
 }
 
+.search-scope-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .search-scope {
-  padding: 8px 6px;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 8px 28px 8px 12px;
   border: 1.5px solid var(--border);
   border-radius: 8px;
-  background: var(--surface);
+  background: var(--inset);
   color: var(--text);
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   outline: none;
   transition: var(--transition);
-  max-width: 130px;
+  max-width: 150px;
+}
+
+.search-scope:hover {
+  background: var(--surface);
+  border-color: var(--tint-5);
 }
 
 .search-scope:focus {
   border-color: var(--primary);
+  background: var(--surface);
+}
+
+/* 下拉选项面板（Chrome/Edge 支持原生样式化） */
+.search-scope option {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.search-scope-arrow {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: var(--transition);
+}
+
+.search-scope-wrap:hover .search-scope-arrow,
+.search-scope:focus ~ .search-scope-arrow {
+  color: var(--primary-light);
 }
 
 .search-scope-path {

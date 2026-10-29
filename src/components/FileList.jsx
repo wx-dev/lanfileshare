@@ -20,6 +20,7 @@ import {
   SearchIcon,
   OpenFolderIcon,
   XIcon,
+  ChevronDownIcon,
 } from './Icons';
 import ContextMenu from './ContextMenu';
 import FolderPickerModal from './FolderPickerModal';
@@ -327,16 +328,21 @@ export default function FileList({
               </button>
             )}
           </div>
-          <select
-            className="search-scope"
-            value={scope}
-            onChange={(e) => changeScope(e.target.value)}
-            title="搜索范围"
-          >
-            <option value="all">整个共享目录</option>
-            <option value="current">当前文件夹</option>
-            <option value="folder">自定义文件夹</option>
-          </select>
+          <div className="search-scope-wrap">
+            <select
+              className="search-scope"
+              value={scope}
+              onChange={(e) => changeScope(e.target.value)}
+              title="搜索范围"
+            >
+              <option value="all">整个共享目录</option>
+              <option value="current">当前文件夹</option>
+              <option value="folder">自定义文件夹</option>
+            </select>
+            <span className="search-scope-arrow">
+              <ChevronDownIcon />
+            </span>
+          </div>
           {scope === 'folder' && (
             <>
               <span
