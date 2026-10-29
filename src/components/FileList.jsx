@@ -21,10 +21,18 @@ import {
   OpenFolderIcon,
   XIcon,
   ChevronDownIcon,
+  CheckIcon,
 } from './Icons';
 import ContextMenu from './ContextMenu';
 import FolderPickerModal from './FolderPickerModal';
 import { canPreview } from '../previewFormats';
+
+// 搜索范围选项（自定义下拉）
+const SCOPE_OPTIONS = [
+  { value: 'all', label: '整个共享目录' },
+  { value: 'current', label: '当前文件夹' },
+  { value: 'folder', label: '自定义文件夹' },
+];
 
 function formatSize(bytes) {
   if (bytes === null) return '—';
@@ -79,8 +87,25 @@ export default function FileList({
   const [customPath, setCustomPath] = useState('');
   const [folderChosen, setFolderChosen] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
+  const [scopeOpen, setScopeOpen] = useState(false); // 自定义搜索范围下拉
+  const scopeRef = useRef(null);
   const searchSeq = useRef(0); // 丢弃过期的搜索响应
   const debounceRef = useRef(null);
+
+  // 点击下拉外部或按 Esc 时收起
+  useEffect(() => {
+    if (!scopeOpen) return;
+    const onPointerDown = (e) => {
+      if (scopeRef.current && !scopeRef.current.contains(e.target)) setScopeOpen(false);
+    };
+    const onKey = (e) => { if (e.key === 'Escape') setScopeOpen(false); };
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [scopeOpen]);
 
   // 功能开关：管理端关闭的功能不显示入口（未拿到配置时按开放处理）
   const on = (key) => !features || features[key] !== false;
@@ -328,20 +353,44 @@ export default function FileList({
               </button>
             )}
           </div>
-          <div className="search-scope-wrap">
-            <select
-              className="search-scope"
-              value={scope}
-              onChange={(e) => changeScope(e.target.value)}
+          <div className="search-scope-wrap" ref={scopeRef}>
+            <button
+              type="button"
+              className={`search-scope${scopeOpen ? ' open' : ''}`}
               title="搜索范围"
+              aria-haspopup="listbox"
+              aria-expanded={scopeOpen}
+              onClick={() => setScopeOpen((v) => !v)}
             >
-              <option value="all">整个共享目录</option>
-              <option value="current">当前文件夹</option>
-              <option value="folder">自定义文件夹</option>
-            </select>
-            <span className="search-scope-arrow">
-              <ChevronDownIcon />
-            </span>
+              <span className="search-scope-label">
+                {SCOPE_OPTIONS.find((o) => o.value === scope)?.label}
+              </span>
+              <span className="search-scope-arrow">
+                <ChevronDownIcon />
+              </span>
+            </button>
+            {scopeOpen && (
+              <div className="search-scope-menu" role="listbox">
+                {SCOPE_OPTIONS.map((o) => (
+                  <button
+                    key={o.value}
+                    type="button"
+                    role="option"
+                    aria-selected={scope === o.value}
+                    className={`search-scope-item${scope === o.value ? ' active' : ''}`}
+                    onClick={() => {
+                      changeScope(o.value);
+                      setScopeOpen(false);
+                    }}
+                  >
+                    <span className="search-scope-check">
+                      {scope === o.value && <CheckIcon />}
+                    </span>
+                    {o.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           {scope === 'folder' && (
             <>

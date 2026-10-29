@@ -576,9 +576,10 @@ body::before {
 }
 
 .search-scope {
-  appearance: none;
-  -webkit-appearance: none;
-  padding: 8px 28px 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
   border: 1.5px solid var(--border);
   border-radius: 8px;
   background: var(--inset);
@@ -587,7 +588,7 @@ body::before {
   cursor: pointer;
   outline: none;
   transition: var(--transition);
-  max-width: 150px;
+  white-space: nowrap;
 }
 
 .search-scope:hover {
@@ -595,30 +596,80 @@ body::before {
   border-color: var(--tint-5);
 }
 
-.search-scope:focus {
+.search-scope:focus-visible,
+.search-scope.open {
   border-color: var(--primary);
   background: var(--surface);
 }
 
-/* 下拉选项面板（Chrome/Edge 支持原生样式化） */
-.search-scope option {
-  background: var(--surface);
-  color: var(--text);
+.search-scope-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .search-scope-arrow {
-  position: absolute;
-  right: 10px;
   display: flex;
   align-items: center;
   color: var(--text-muted);
-  pointer-events: none;
   transition: var(--transition);
 }
 
-.search-scope-wrap:hover .search-scope-arrow,
-.search-scope:focus ~ .search-scope-arrow {
+.search-scope:hover .search-scope-arrow,
+.search-scope.open .search-scope-arrow {
   color: var(--primary-light);
+}
+
+.search-scope.open .search-scope-arrow {
+  transform: rotate(180deg);
+}
+
+/* 自定义下拉面板：与右键菜单同一套视觉语言 */
+.search-scope-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  animation: contextMenuIn 0.15s ease;
+}
+
+.search-scope-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: var(--transition);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.search-scope-item:hover {
+  background: var(--surface-hover);
+}
+
+.search-scope-item.active {
+  color: var(--primary-light);
+}
+
+.search-scope-check {
+  width: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-light);
+  flex-shrink: 0;
 }
 
 .search-scope-path {

@@ -9,7 +9,7 @@ import {
   FaChevronRight, FaChevronDown, FaHome, FaHdd, FaEye,
   FaArrowRight, FaFolderPlus, FaExchangeAlt, FaEnvelope,
   FaAndroid, FaApple, FaWindows, FaLinux, FaJava,
-  FaFont, FaBook, FaMagnet, FaSun, FaMoon, FaSearch,
+  FaFont, FaBook, FaMagnet, FaSun, FaMoon, FaSearch, FaCheck,
 } from 'react-icons/fa';
 
 // ===== 基础操作图标 =====
@@ -26,6 +26,7 @@ export const CopyIcon = (props) => <FaCopy size={14} {...props} />;
 export const LinkIcon = (props) => <FaLink size={15} {...props} />;
 export const ChevronRightIcon = (props) => <FaChevronRight size={10} {...props} />;
 export const ChevronDownIcon = (props) => <FaChevronDown size={10} {...props} />;
+export const CheckIcon = (props) => <FaCheck size={11} {...props} />;
 export const HomeIcon = (props) => <FaHome size={14} {...props} />;
 export const HardDriveIcon = (props) => <FaHdd size={14} {...props} />;
 export const EyeIcon = (props) => <FaEye size={14} {...props} />;
