@@ -188,10 +188,6 @@ npx tauri build --no-bundle
 
 HTTP 服务不发送 CORS 头，跨站页面无法代替用户调用这些接口。
 
-## 旧版 Node 服务
-
-已移除：`server/` 目录及其依赖（express / cors / multer / nanoid / open）全部删除，项目不再包含任何 Node 服务端代码。
-
 ## 常见问题
 
 **编译报错 `os error 4551 / 应用程序控制策略已阻止此文件`，或双击 exe 提示「已被组织策略阻止」**
